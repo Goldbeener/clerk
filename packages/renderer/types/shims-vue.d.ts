@@ -4,3 +4,17 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
+
+type NoteItem = {
+  [key: string]: string;
+};
+declare module '@mock/*' {
+  const data: {array: NoteItem[]};
+  export default data;
+}
+
+declare global {
+  interface Window {
+    todoDb: any;
+  }
+}

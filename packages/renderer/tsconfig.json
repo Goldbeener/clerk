@@ -7,12 +7,14 @@
     "skipLibCheck": true,
     "strict": true,
     "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
       "#preload": ["../preload/src/index"],
-      "/@/*": ["./src/*"]
+      "/@/*": ["./src/*"],
+      "@mock": ["./src/mocks/*"],
     },
     "lib": ["ESNext", "dom", "dom.iterable"]
   },
@@ -21,7 +23,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "types/**/*.d.ts",
-    "../../types/**/*.d.ts"
+    "../../types/**/*.d.ts",
+    "./auto-imports.d.ts",
   ],
   "exclude": ["**/*.spec.ts", "**/*.test.ts"]
 }

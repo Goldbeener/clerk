@@ -5,6 +5,9 @@ import vue from '@vitejs/plugin-vue';
 import {renderer} from 'unplugin-auto-expose';
 import {join} from 'node:path';
 import {injectAppVersion} from '../../version/inject-app-version-plugin.mjs';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import {ElementPlusResolver} from 'unplugin-vue-components/resolvers';
 
 const PACKAGE_ROOT = __dirname;
 const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
@@ -20,6 +23,7 @@ const config = {
   resolve: {
     alias: {
       '/@/': join(PACKAGE_ROOT, 'src') + '/',
+      '@mock': join(PACKAGE_ROOT, 'src') + '/mocks',
     },
   },
   base: '',
@@ -48,6 +52,18 @@ const config = {
       preloadEntry: join(PACKAGE_ROOT, '../preload/src/index.ts'),
     }),
     injectAppVersion(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+      imports: [
+        // 需要自动导入的插件，自定义导入的API
+        'vue',
+        'vue-router',
+      ],
+      include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
   ],
 };
 
