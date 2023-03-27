@@ -1,7 +1,7 @@
 import Datastore from 'nedb-promises';
 import Ajv from 'ajv';
 import type {ValidateFunction} from 'ajv';
-import todoItemSchema from '../schemas/todoItem';
+import noteItemSchema from '../schemas/noteItem';
 
 class TodoItemStore {
   schemaValidator: ValidateFunction;
@@ -11,8 +11,8 @@ class TodoItemStore {
       allErrors: true,
       useDefaults: true,
     });
-    this.schemaValidator = ajv.compile(todoItemSchema);
-    const dbPath = `${process.cwd()}/todolist.db`;
+    this.schemaValidator = ajv.compile(noteItemSchema);
+    const dbPath = `${process.cwd()}/noteocean.db`;
     this.db = Datastore.create({
       filename: dbPath,
       timestampData: true,

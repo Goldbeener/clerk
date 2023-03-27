@@ -1,8 +1,8 @@
-const todoItemSchema = {
+const noteItemSchema = {
   type: 'object',
   properties: {
     content: {
-      type: 'string',
+      type: 'string', // 内容细分？
     },
     tags: {
       type: 'array',
@@ -18,4 +18,4 @@ const todoItemSchema = {
  * 设计合理的协议
  */
 
-export default todoItemSchema;
+export default noteItemSchema;

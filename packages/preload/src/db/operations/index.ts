@@ -1,4 +1,4 @@
-import todoDb from '../stores/todoItem';
+import todoDb from '../stores/noteItem';
 import dayjs from 'dayjs';
 
 interface TodoData {
@@ -23,6 +23,17 @@ export function getToday(): Promise<TodoData> {
   const query = {
     timestamp: {
       $gte: dayjs().startOf('date').valueOf(),
+      $lte: dayjs().add(1, 'day').startOf('date').valueOf(),
+    },
+  };
+  return todoDb.readRange(query, {timestamp: -1});
+}
+
+// 获取本周数据
+export function getWeek(): Promise<TodoData> {
+  const query = {
+    timestamp: {
+      $gte: dayjs().startOf('week').valueOf(),
       $lte: dayjs().add(1, 'day').startOf('date').valueOf(),
     },
   };

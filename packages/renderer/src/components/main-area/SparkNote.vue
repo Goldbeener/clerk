@@ -79,6 +79,7 @@ async function getData() {
 }
 getData();
 
+// 添加
 function confirmAddNote() {
   const content = newNote.value;
   createItem({
@@ -86,7 +87,10 @@ function confirmAddNote() {
     isDone: false,
   });
   newNote.value = '';
+  getData();
 }
+
+// TODO 搜索
 </script>
 
 <style scoped lang="less">
