@@ -138,5 +138,6 @@ function confirmAddNote() {
 }
 .note-content {
   text-align: left;
+  white-space: pre-wrap; // 保留连续空白，换行符、br元素，或者填充盒子需要，启动换行
 }
 </style>

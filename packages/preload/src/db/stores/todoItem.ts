@@ -42,7 +42,7 @@ class TodoItemStore {
   }
 
   readAll() {
-    return this.db.find().limit(10).exec();
+    return this.db.find({}).sort({createdAt: -1}).skip(0).limit(10).exec();
   }
 
   archive({_id}: {_id: any}) {
