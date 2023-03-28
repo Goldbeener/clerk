@@ -10,8 +10,8 @@
         <el-card :body-style="{padding: '0px'}">
           <div style="padding: 14px">
             <div class="content">{{ note.content }}</div>
-            <div class="bottom">
-              <time class="time">{{ useHandleFormatTime(note.createdAt) }}</time>
+            <div class="text-slate-500 flex mt-[16px] justify-between items-center">
+              <span class="text-xs">{{ useHandleFormatTime(note.createdAt) }}</span>
               <el-button
                 text
                 class="button"
@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import {getToday} from '#preload';
-import useHandleFormatTime from '/@/hooks/useHandleFormatTime';
+import {useHandleFormatTime} from '/@/hooks/useHandleFormatTime';
 
 const todayNotes = ref();
 
@@ -58,11 +58,6 @@ getTodayData();
   text-align: left;
 }
 .bottom {
-  display: flex;
-  margin-top: 16px;
   color: #999;
-}
-.time {
-  font-size: 12px;
 }
 </style>
