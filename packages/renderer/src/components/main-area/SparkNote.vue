@@ -69,7 +69,7 @@ const notes = ref();
 async function getData() {
   try {
     const todoDb = await getTodoDb();
-    todoDb.forEach(item => {
+    todoDb.forEach((item: any) => {
       item.time = dayjs(item.createdAt).format('YYYY-MM-DD HH:mm:ss');
     });
     notes.value = todoDb;

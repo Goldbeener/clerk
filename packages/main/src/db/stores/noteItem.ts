@@ -1,3 +1,4 @@
+import {app} from 'electron';
 import Datastore from 'nedb-promises';
 import Ajv from 'ajv';
 import type {ValidateFunction} from 'ajv';
@@ -12,7 +13,10 @@ class TodoItemStore {
       useDefaults: true,
     });
     this.schemaValidator = ajv.compile(noteItemSchema);
-    const dbPath = `${process.cwd()}/noteocean.db`;
+    const dbPath =
+      process.env.NODE_ENV === 'development'
+        ? `${process.cwd()}/noteocean.db`
+        : `${app.getPath('userData')}/data/noteocean.db`;
     this.db = Datastore.create({
       filename: dbPath,
       timestampData: true,
