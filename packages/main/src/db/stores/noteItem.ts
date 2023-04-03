@@ -4,7 +4,7 @@ import Ajv from 'ajv';
 import type {ValidateFunction} from 'ajv';
 import noteItemSchema from '../schemas/noteItem';
 
-class TodoItemStore {
+class NoteStore {
   schemaValidator: ValidateFunction;
   db: any;
   constructor() {
@@ -37,6 +37,10 @@ class TodoItemStore {
     }
   }
 
+  count() {
+    return this.db.count();
+  }
+
   read(_id: any) {
     return this.db.findOne({_id}).exec();
   }
@@ -54,5 +58,5 @@ class TodoItemStore {
   }
 }
 
-const itemDb = new TodoItemStore();
+const itemDb = new NoteStore();
 export default itemDb;

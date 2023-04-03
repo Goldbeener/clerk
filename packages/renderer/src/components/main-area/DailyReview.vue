@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="title">每日回顾</div>
+    <div class="mb-16px h-32px text-[26px] leading-8 text-left font-bold">每日回顾</div>
     <el-row :gutter="20">
       <el-col
         v-for="note in todayNotes"
@@ -9,14 +9,13 @@
       >
         <el-card :body-style="{padding: '0px'}">
           <div style="padding: 14px">
-            <div class="content">{{ note.content }}</div>
+            <div class="text-left whitespace-pre-wrap">{{ note.content }}</div>
             <div class="text-slate-500 flex mt-[16px] justify-between items-center">
               <span class="text-xs">{{ useHandleFormatTime(note.createdAt) }}</span>
               <el-button
                 text
                 class="button"
-              >
-              </el-button>
+              ></el-button>
             </div>
           </div>
         </el-card>
@@ -44,20 +43,4 @@ getTodayData();
  */
 </script>
 
-<style scoped lang="less">
-.title {
-  height: 32px;
-  line-height: 32px;
-  font-weight: bold;
-  font-size: 26px;
-  text-align: left;
-  margin-bottom: 16px;
-}
-.content {
-  white-space: pre-wrap;
-  text-align: left;
-}
-.bottom {
-  color: #999;
-}
-</style>
+<style scoped lang="less"></style>

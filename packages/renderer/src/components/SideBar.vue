@@ -1,17 +1,89 @@
 <template>
-  <div class="side-bar-wrapper">
-    <div class="user-info">
-      <div class="user-info__avatar"></div>
-      <span class="user-info__name">Adu</span>
+  <div class="side-bar-wrapper divide-y">
+    <div class="user-info mb-[16px]">
+      <div
+        class="w-[66px] h-[66px] rounded-full overflow-hidden"
+        @click="handleRandomAvatar"
+      >
+        <img
+          :src="avatar"
+          alt="Avatar"
+        />
+      </div>
+      <span
+        class="max-w-5/6 h-9 leading-9 font-bold text-center truncate"
+        contenteditable="true"
+      >
+        Adu
+      </span>
+      <div class="w-5/6 flex justify-between mt-[12px]">
+        <div class="flex flex-col">
+          <span class="font-bold text-cyan-400">{{ total }}</span>
+          <span class="text-xs text-slate-400">笔记总数</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold text-cyan-400">9</span>
+          <span class="text-xs text-slate-400">连续记录</span>
+        </div>
+      </div>
     </div>
-    <div class="calendar"></div>
     <div class="menu-wrapper">
       <MenuList />
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import {createAvatar} from '@dicebear/core';
+import type {Style, StyleOptions} from '@dicebear/core';
+import {
+  pixelArt,
+  bottts,
+  thumbs,
+  botttsNeutral,
+  croodles,
+  shapes,
+  adventurerNeutral,
+} from '@dicebear/collection';
+import {getRandom} from '/@/utils/getRandom';
+import {getCount} from '#preload';
+
+const collecttions = [pixelArt, bottts, thumbs, botttsNeutral, croodles, shapes, adventurerNeutral];
+const avatar = ref(getRandomAvatar());
+const total = ref(0);
+
+/**
+ * 初始化总数据
+ * TODO 当新增数据的时候需要刷新
+ * */
+async function initTotal() {
+  total.value = await getCount();
+}
+initTotal();
+
+/**
+ * TODO 统计连续记录天数
+ * mongodb语句写法
+ * 插入的时候直接计算，最近记录天数
+ */
+
+function getRandomAvatar() {
+  const idx = getRandom(collecttions.length - 1);
+  const style = collecttions[idx] as Style<0>;
+  const options = {
+    size: 128,
+    radius: 50,
+    backgroundColor: ['b6e3f4', 'c0aede', 'd1d4f9'],
+    backgroundType: ['gradientLinear', 'solid'],
+  } as StyleOptions<0>;
+
+  return createAvatar(style, options).toDataUriSync();
+}
+// 切换头像
+function handleRandomAvatar() {
+  avatar.value = getRandomAvatar();
+}
+</script>
 
 <style scoped lang="less">
 .side-bar-wrapper {
@@ -31,9 +103,6 @@
     height: 66px;
     border-radius: 50%;
     background-color: aqua;
-  }
-  &__name {
-    line-height: 36px;
   }
 }
 .menu-wrapper {

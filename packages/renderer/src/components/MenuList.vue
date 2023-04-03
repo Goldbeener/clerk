@@ -20,15 +20,11 @@
       <el-icon><Notebook /></el-icon>
       <span>事件纵览</span>
     </el-menu-item>
-    <el-menu-item index="/user-setting">
-      <el-icon><Setting /></el-icon>
-      <span>个人中心</span>
-    </el-menu-item>
   </el-menu>
 </template>
 
 <script setup lang="ts">
-import {Document, Menu as IconMenu, Memo, Notebook, Setting} from '@element-plus/icons-vue';
+import {Document, Menu as IconMenu, Memo, Notebook} from '@element-plus/icons-vue';
 
 const defaultActive = ref('/');
 </script>

@@ -1,8 +1,9 @@
 import {ipcMain} from 'electron';
-import {getTodoDb, getToday, getWeek, createItem} from './db/operations';
+import {getCount, getNoteDb, getToday, getWeek, createItem} from './db/operations';
 
 export function loadDb() {
-  ipcMain.handle('db:query:all', getTodoDb);
+  ipcMain.handle('db:query:count', getCount);
+  ipcMain.handle('db:query:all', getNoteDb);
   ipcMain.handle('db:query:today', getToday);
   ipcMain.handle('db:query:week', getWeek);
 

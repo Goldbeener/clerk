@@ -90,7 +90,12 @@ function confirmAddNote() {
   getData();
 }
 
-// TODO 搜索
+/**
+ * TODO
+ * 1. 搜索
+ * 2. 富文本，支持插入链接，插入图片，插入事件tag
+ *
+ * */
 </script>
 
 <style scoped lang="less">
