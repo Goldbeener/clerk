@@ -32,9 +32,21 @@ export async function getNoteDb(): Promise<TodoData[]> {
 export async function createItem(data: TodoData): Promise<TodoData> {
   getPersistent().then(res => {
     console.log('???当前持续性信息', res);
-    res = res || {lastDay: dayjs(), lastDays: 0};
     if (!res) {
-      updatePersistent(res);
+      updatePersistent({lastDay: dayjs().valueOf(), lastDays: 1});
+    } else {
+      const {lastDay, lastDays} = res;
+      if (dayjs(lastDay).isBefore(dayjs(), 'day')) {
+        console.log('再次更新');
+        // 判断是否超过一天
+        if (dayjs(lastDay).isSame(dayjs().subtract(1, 'day'), 'day')) {
+          // 不超过一天 加1
+          updatePersistent({lastDay: dayjs().valueOf(), lastDays: lastDays + 1});
+        } else {
+          // 超过一天 重新计算
+          updatePersistent({lastDay: dayjs().valueOf(), lastDays: 1});
+        }
+      }
     }
   });
 

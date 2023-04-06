@@ -22,7 +22,7 @@
           <span class="text-xs text-slate-400">笔记总数</span>
         </div>
         <div class="flex flex-col">
-          <span class="font-bold text-cyan-400">9</span>
+          <span class="font-bold text-cyan-400">{{ persistentCount }}</span>
           <span class="text-xs text-slate-400">连续记录</span>
         </div>
       </div>
@@ -46,11 +46,12 @@ import {
   adventurerNeutral,
 } from '@dicebear/collection';
 import {getRandom} from '/@/utils/getRandom';
-import {getCount} from '#preload';
+import {getCount, getPersistentCount} from '#preload';
 
 const collecttions = [pixelArt, bottts, thumbs, botttsNeutral, croodles, shapes, adventurerNeutral];
 const avatar = ref(getRandomAvatar());
 const total = ref(0);
+const persistentCount = ref(0);
 
 /**
  * 初始化总数据
@@ -61,6 +62,13 @@ async function initTotal() {
 }
 initTotal();
 
+async function initPersistent() {
+  const data = await getPersistentCount();
+  console.log('持续天数', data);
+
+  persistentCount.value = data.lastDays;
+}
+initPersistent();
 /**
  * TODO 统计连续记录天数
  * mongodb语句写法

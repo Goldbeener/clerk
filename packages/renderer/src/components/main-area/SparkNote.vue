@@ -82,6 +82,7 @@ getData();
 // 添加
 function confirmAddNote() {
   const content = newNote.value;
+  if (!content) return;
   createItem({
     content,
     isDone: false,

@@ -28,7 +28,9 @@ class NoteStatisticsStore {
   }
 
   getPersistent() {
-    return this.db.findOne({key: 'Persistent'}).exec();
+    return this.db
+      .findOne({key: 'Persistent'}, {createdAt: 0, updatedAt: 0, _id: 0, key: 0})
+      .exec();
   }
   updatePersistent(data: any) {
     return this.db.updateAsync({key: 'Persistent'}, {$set: data}, {upsert: true});

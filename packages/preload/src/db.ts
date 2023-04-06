@@ -4,6 +4,10 @@ import {ipcRenderer} from 'electron';
 export function getCount() {
   return ipcRenderer.invoke('db:query:count');
 }
+// 获取总数
+export function getPersistentCount() {
+  return ipcRenderer.invoke('db:query:persistent');
+}
 // 获取总数据 (分页)
 export function getTodoDb() {
   return ipcRenderer.invoke('db:query:all');
