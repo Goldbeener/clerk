@@ -9,7 +9,7 @@
     >
       <el-card :body-style="{padding: '0px'}">
         <div style="padding: 14px">
-          <div class="content">{{ note.content }}</div>
+          <div class="content text-left whitespace-pre-wrap">{{ note.content }}</div>
           <div class="text-slate-500 flex mt-[16px] justify-between items-center">
             <span class="text-xs font-bold">星期{{ weekMap[getDay(note.createdAt)] }}</span>
             <span class="text-xs">{{ useHandleFormatTime(note.createdAt) }}</span>

@@ -61,6 +61,7 @@
 import {More, Search, Promotion} from '@element-plus/icons-vue';
 import {getTodoDb, createItem} from '#preload';
 import dayjs from 'dayjs';
+import mitter from '/@/hooks/useHanldeEventBus';
 
 const keyword = ref('');
 const newNote = ref('');
@@ -82,15 +83,27 @@ getData();
 // 添加
 function confirmAddNote() {
   const content = newNote.value;
+  if (!content) return;
   createItem({
     content,
     isDone: false,
   });
   newNote.value = '';
   getData();
+  notifyAddNote('add-note');
 }
 
-// TODO 搜索
+// 事件通知
+function notifyAddNote(eventName: string, data?: any) {
+  mitter.emit(eventName, data);
+}
+
+/**
+ * TODO
+ * 1. 搜索
+ * 2. 富文本，支持插入链接，插入图片，插入事件tag
+ *
+ * */
 </script>
 
 <style scoped lang="less">
