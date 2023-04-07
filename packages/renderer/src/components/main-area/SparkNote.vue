@@ -61,6 +61,7 @@
 import {More, Search, Promotion} from '@element-plus/icons-vue';
 import {getTodoDb, createItem} from '#preload';
 import dayjs from 'dayjs';
+import mitter from '/@/hooks/useHanldeEventBus';
 
 const keyword = ref('');
 const newNote = ref('');
@@ -89,6 +90,12 @@ function confirmAddNote() {
   });
   newNote.value = '';
   getData();
+  notifyAddNote('add-note');
+}
+
+// 事件通知
+function notifyAddNote(eventName: string, data?: any) {
+  mitter.emit(eventName, data);
 }
 
 /**

@@ -47,6 +47,7 @@ import {
 } from '@dicebear/collection';
 import {getRandom} from '/@/utils/getRandom';
 import {getCount, getPersistentCount} from '#preload';
+import mitter from '/@/hooks/useHanldeEventBus';
 
 const collecttions = [pixelArt, bottts, thumbs, botttsNeutral, croodles, shapes, adventurerNeutral];
 const avatar = ref(getRandomAvatar());
@@ -55,25 +56,28 @@ const persistentCount = ref(0);
 
 /**
  * 初始化总数据
- * TODO 当新增数据的时候需要刷新
  * */
 async function initTotal() {
   total.value = await getCount();
 }
 initTotal();
 
+/**
+ * 初始化持续天数
+ */
 async function initPersistent() {
   const data = await getPersistentCount();
-  console.log('持续天数', data);
-
   persistentCount.value = data.lastDays;
 }
 initPersistent();
+
 /**
- * TODO 统计连续记录天数
- * mongodb语句写法
- * 插入的时候直接计算，最近记录天数
+ * 新增笔记时 更新笔记总数和记录天数
  */
+mitter.on('add-note', () => {
+  initTotal();
+  initPersistent();
+});
 
 function getRandomAvatar() {
   const idx = getRandom(collecttions.length - 1);
