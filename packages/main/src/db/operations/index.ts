@@ -1,5 +1,6 @@
 import noteDb from '../stores/noteItem';
 import noteSummaryDb from '../stores/statistics';
+import userInfoDb from '../stores/userData';
 import dayjs from 'dayjs';
 
 interface TodoData {
@@ -16,6 +17,16 @@ export async function getPersistent() {
 // 更新noteSummaryDb当前信息
 export async function updatePersistent(data: any) {
   return await noteSummaryDb.updatePersistent(data);
+}
+
+// 获取用户信息
+export async function getUserInfo() {
+  return await userInfoDb.getUserInfo();
+}
+
+// 更新用户信息
+export async function setUserInfo(data: any) {
+  return await userInfoDb.setUserInfo(data);
 }
 
 // 读取笔记总数

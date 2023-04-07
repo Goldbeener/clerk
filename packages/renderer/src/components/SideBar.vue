@@ -11,10 +11,12 @@
         />
       </div>
       <span
+        ref="nameMakerRef"
         class="max-w-5/6 h-9 leading-9 font-bold text-center truncate"
         contenteditable="true"
+        @blur="handleChangeName"
       >
-        Adu
+        {{ name }}
       </span>
       <div class="w-5/6 flex justify-between mt-[12px]">
         <div class="flex flex-col">
@@ -46,13 +48,29 @@ import {
   adventurerNeutral,
 } from '@dicebear/collection';
 import {getRandom} from '/@/utils/getRandom';
-import {getCount, getPersistentCount} from '#preload';
+import {getCount, getPersistentCount, getUserInfo, setUserInfo} from '#preload';
 import mitter from '/@/hooks/useHanldeEventBus';
 
 const collecttions = [pixelArt, bottts, thumbs, botttsNeutral, croodles, shapes, adventurerNeutral];
-const avatar = ref(getRandomAvatar());
+const name = ref('Hello World');
+const avatar = ref();
 const total = ref(0);
 const persistentCount = ref(0);
+const nameMakerRef = ref<HTMLElement>();
+
+/**
+ * 初始化用户信息
+ */
+async function initUserInfo() {
+  const data = await getUserInfo();
+  if (!data) {
+    avatar.value = getRandomAvatar();
+  } else {
+    avatar.value = data.avatar;
+    name.value = data.name;
+  }
+}
+initUserInfo();
 
 /**
  * 初始化总数据
@@ -79,6 +97,9 @@ mitter.on('add-note', () => {
   initPersistent();
 });
 
+/**
+ * 获取随机头像
+ */
 function getRandomAvatar() {
   const idx = getRandom(collecttions.length - 1);
   const style = collecttions[idx] as Style<0>;
@@ -88,12 +109,21 @@ function getRandomAvatar() {
     backgroundColor: ['b6e3f4', 'c0aede', 'd1d4f9'],
     backgroundType: ['gradientLinear', 'solid'],
   } as StyleOptions<0>;
-
   return createAvatar(style, options).toDataUriSync();
 }
-// 切换头像
+// 切换并保存头像
 function handleRandomAvatar() {
-  avatar.value = getRandomAvatar();
+  const newAvatar = getRandomAvatar();
+  avatar.value = newAvatar;
+  setUserInfo({avatar: newAvatar});
+}
+// 修改并保存名字
+function handleChangeName() {
+  const newName = (nameMakerRef.value as HTMLElement).innerText.trim();
+  if (newName !== name.value) {
+    name.value = newName;
+    setUserInfo({name: newName});
+  }
 }
 </script>
 
@@ -110,12 +140,6 @@ function handleRandomAvatar() {
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  &__avatar {
-    width: 66px;
-    height: 66px;
-    border-radius: 50%;
-    background-color: aqua;
-  }
 }
 .menu-wrapper {
   // deep 选择器必须在scoped、有父级选择器，在less中必须是直接父级

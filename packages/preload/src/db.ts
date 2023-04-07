@@ -8,6 +8,16 @@ export function getCount() {
 export function getPersistentCount() {
   return ipcRenderer.invoke('db:query:persistent');
 }
+
+// 获取用户信息
+export function getUserInfo() {
+  return ipcRenderer.invoke('db:query:userInfo');
+}
+// 设置用户信息
+export function setUserInfo(data: any) {
+  return ipcRenderer.invoke('db:update:userInfo', data);
+}
+
 // 获取总数据 (分页)
 export function getTodoDb() {
   return ipcRenderer.invoke('db:query:all');
