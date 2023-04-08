@@ -85,7 +85,7 @@ if (import.meta.env.PROD) {
     .then(() => import('electron-updater'))
     .then(module => {
       const autoUpdater =
-        module.autoUpdater || (module.default.autoUpdater as typeof module['autoUpdater']);
+        module.autoUpdater || (module.default.autoUpdater as (typeof module)['autoUpdater']);
       return autoUpdater.checkForUpdatesAndNotify();
     })
     .catch(e => console.error('Failed check and install updates:', e));

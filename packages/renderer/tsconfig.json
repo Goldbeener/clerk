@@ -14,7 +14,7 @@
     "paths": {
       "#preload": ["../preload/src/index"],
       "/@/*": ["./src/*"],
-      "@mock": ["./src/mocks/*"],
+      "@mock": ["./src/mocks/*"]
     },
     "lib": ["ESNext", "dom", "dom.iterable"]
   },
@@ -24,7 +24,7 @@
     "src/**/*.tsx",
     "types/**/*.d.ts",
     "../../types/**/*.d.ts",
-    "./auto-imports.d.ts",
+    "./auto-imports.d.ts"
   ],
   "exclude": ["**/*.spec.ts", "**/*.test.ts"]
 }
