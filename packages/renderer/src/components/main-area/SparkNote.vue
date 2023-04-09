@@ -36,10 +36,11 @@
           v-for="note in notes"
           :key="note.id"
           shadow="hover"
+          class="rounded-[12px]"
         >
           <template #header>
             <div class="card-header">
-              <span>{{ note.time }}</span>
+              <span class="text-gray-400">{{ note.time }}</span>
               <el-button
                 class="button"
                 text
