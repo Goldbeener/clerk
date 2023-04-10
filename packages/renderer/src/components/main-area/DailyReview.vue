@@ -107,7 +107,7 @@ function handleChangeMode() {
  */
 async function handleCopyDaily() {
   const data = todayNotes.value.reduce(
-    (pre: typeof todayNotes.value[number], cur: typeof todayNotes.value[number]) => {
+    (pre: (typeof todayNotes.value)[number], cur: (typeof todayNotes.value)[number]) => {
       return pre.content + '\n' + cur.content;
     },
   );
