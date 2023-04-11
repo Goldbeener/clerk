@@ -17,7 +17,7 @@
       </el-tooltip>
       <el-tooltip
         effect="dark"
-        content="点击切换视图模式"
+        content="点击排序"
         placement="right"
       >
         <div
@@ -149,7 +149,7 @@ function handleSort() {
  * 复制日报
  */
 async function handleCopyDaily() {
-  const data = todayNotes.value.reduce(
+  const data = showTodayNotes.value.reduce(
     (pre: typeof todayNotes.value[number], cur: typeof todayNotes.value[number]) => {
       // 需要注意pre类型，它是跟初始值、最终返回值保持一致的
       return `${pre}${pre ? '\n' : ''}${cur.content}`;
