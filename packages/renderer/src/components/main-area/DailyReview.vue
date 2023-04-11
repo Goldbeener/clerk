@@ -15,6 +15,30 @@
           <component :is="showIcon"></component>
         </el-icon>
       </el-tooltip>
+      <el-tooltip
+        effect="dark"
+        content="点击切换视图模式"
+        placement="right"
+      >
+        <div
+          class="flex items-center cursor-pointer"
+          @click="handleSort"
+        >
+          <el-icon
+            size="20"
+            :color="sort ? '#22d3ee' : ''"
+          >
+            <SortDown />
+          </el-icon>
+          <el-icon
+            size="20"
+            class="ml-[-10px]"
+            :color="!sort ? '#22d3ee' : ''"
+          >
+            <SortUp />
+          </el-icon>
+        </div>
+      </el-tooltip>
       <div class="ml-auto">
         <el-tooltip
           effect="dark"
@@ -37,7 +61,7 @@
       :gutter="20"
     >
       <el-col
-        v-for="note in todayNotes"
+        v-for="note in showTodayNotes"
         :key="note._id"
         :span="8"
       >
@@ -61,7 +85,7 @@
       class="detail-mode"
     >
       <div
-        v-for="note in todayNotes"
+        v-for="note in showTodayNotes"
         :key="note._id"
         class="flex mb-[16px] items-baseline"
       >
@@ -74,12 +98,13 @@
 
 <script setup lang="ts">
 import {getToday, clipboardWriteText} from '#preload';
-import {Grid, Tickets, CopyDocument} from '@element-plus/icons-vue';
+import {Grid, Tickets, CopyDocument, SortUp, SortDown} from '@element-plus/icons-vue';
 import {ElMessage} from 'element-plus';
 import 'element-plus/theme-chalk/el-message.css';
 import {useHandleFormatTime} from '/@/hooks/useHandleFormatTime';
 
 const todayNotes = ref();
+const sort = ref(1);
 /**
  * mode
  * 0: grid
@@ -88,6 +113,17 @@ const todayNotes = ref();
 const mode = ref(0);
 const showIcon = computed(() => {
   return mode.value ? Tickets : Grid;
+});
+
+/**
+ * reverse 数组原地倒转，
+ * 返回值还是原数组，不会返回一个新的数组
+ */
+const showTodayNotes = computed(() => {
+  if (!todayNotes.value) {
+    return [];
+  }
+  return sort.value ? [...todayNotes.value] : [...todayNotes.value].reverse();
 });
 
 async function getTodayData() {
@@ -103,11 +139,18 @@ function handleChangeMode() {
 }
 
 /**
+ * 排序
+ */
+function handleSort() {
+  sort.value = 1 ^ sort.value;
+}
+
+/**
  * 复制日报
  */
 async function handleCopyDaily() {
   const data = todayNotes.value.reduce(
-    (pre: (typeof todayNotes.value)[number], cur: (typeof todayNotes.value)[number]) => {
+    (pre: typeof todayNotes.value[number], cur: typeof todayNotes.value[number]) => {
       // 需要注意pre类型，它是跟初始值、最终返回值保持一致的
       return `${pre}${pre ? '\n' : ''}${cur.content}`;
     },
