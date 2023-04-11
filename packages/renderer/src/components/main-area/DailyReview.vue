@@ -108,8 +108,10 @@ function handleChangeMode() {
 async function handleCopyDaily() {
   const data = todayNotes.value.reduce(
     (pre: (typeof todayNotes.value)[number], cur: (typeof todayNotes.value)[number]) => {
-      return pre.content + '\n' + cur.content;
+      // 需要注意pre类型，它是跟初始值、最终返回值保持一致的
+      return `${pre}${pre ? '\n' : ''}${cur.content}`;
     },
+    '', // 这个初始值最好传递，否则只有一个元素时有问题，并且这个值也代表了最后返回值的类型
   );
   try {
     clipboardWriteText(data);

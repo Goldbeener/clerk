@@ -5,6 +5,8 @@
 package.json
 package-lock.json
 .electron-vendors.cache.json
+auto-imports.d.ts
+components.d.ts
 
 .github
 .idea
