@@ -55,44 +55,50 @@
         </el-tooltip>
       </div>
     </div>
-    <!-- grid mode -->
-    <el-row
-      v-if="!mode"
-      :gutter="20"
-    >
-      <el-col
-        v-for="note in showTodayNotes"
-        :key="note._id"
-        :span="8"
+    <template v-if="showTodayNotes.length">
+      <!-- grid mode -->
+      <el-row
+        v-if="!mode"
+        :gutter="20"
       >
-        <el-card :body-style="{padding: '0px'}">
-          <div style="padding: 14px">
-            <div class="text-left whitespace-pre-wrap">{{ note.content }}</div>
-            <div class="text-slate-500 flex mt-[16px] justify-between items-center">
-              <span class="text-xs">{{ useHandleFormatTime(note.createdAt) }}</span>
-              <el-button
-                text
-                class="button"
-              ></el-button>
+        <el-col
+          v-for="note in showTodayNotes"
+          :key="note._id"
+          :span="8"
+        >
+          <el-card :body-style="{padding: '0px'}">
+            <div style="padding: 14px">
+              <div class="text-left whitespace-pre-wrap">{{ note.content }}</div>
+              <div class="text-slate-500 flex mt-[16px] justify-between items-center">
+                <span class="text-xs">{{ useHandleFormatTime(note.createdAt) }}</span>
+                <el-button
+                  text
+                  class="button"
+                ></el-button>
+              </div>
             </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <!-- detail mode -->
-    <div
-      v-else
-      class="detail-mode"
-    >
+          </el-card>
+        </el-col>
+      </el-row>
+      <!-- detail mode -->
       <div
-        v-for="note in showTodayNotes"
-        :key="note._id"
-        class="flex mb-[16px] items-baseline"
+        v-else
+        class="detail-mode"
       >
-        <span class="text-xs mr-[16px]">{{ useHandleFormatTime(note.createdAt) }}</span>
-        <span class="whitespace-pre-wrap text-left">{{ note.content }}</span>
+        <div
+          v-for="note in showTodayNotes"
+          :key="note._id"
+          class="flex mb-[16px] items-baseline"
+        >
+          <span class="text-xs mr-[16px]">{{ useHandleFormatTime(note.createdAt) }}</span>
+          <span class="whitespace-pre-wrap text-left">{{ note.content }}</span>
+        </div>
       </div>
-    </div>
+    </template>
+    <el-empty
+      v-else
+      description="今天还没有开始记录"
+    />
   </div>
 </template>
 
