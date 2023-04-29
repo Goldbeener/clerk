@@ -27,6 +27,7 @@ declare module '@vue/runtime-core' {
     ElTimelineItem: typeof import('element-plus/es')['ElTimelineItem']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     EventLine: typeof import('./src/components/main-area/EventLine.vue')['default']
+    KeyWord: typeof import('./src/components/KeyWord.vue')['default']
     MainArea: typeof import('./src/components/main-area/MainArea.vue')['default']
     MenuList: typeof import('./src/components/MenuList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

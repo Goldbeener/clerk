@@ -51,7 +51,7 @@
             </div>
           </template>
           <div class="note-content">
-            {{ note.content }}
+            <KeyWord :sentence="note.content" />
           </div>
         </el-card>
       </div>

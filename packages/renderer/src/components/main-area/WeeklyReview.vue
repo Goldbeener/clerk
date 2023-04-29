@@ -43,7 +43,11 @@
       >
         <el-card :body-style="{padding: '0px'}">
           <div style="padding: 14px">
-            <div class="content text-left whitespace-pre-wrap">{{ note.content }}</div>
+            <KeyWord
+              class="content whitespace-pre-wrap text-left"
+              :sentence="note.content"
+            />
+
             <div class="text-slate-500 flex mt-[16px] justify-between items-center">
               <span class="text-xs font-bold">{{ note.weekDay }}</span>
               <span class="text-xs">{{ useHandleFormatTime(note.createdAt) }}</span>
@@ -67,10 +71,13 @@
             <div
               v-for="note in dayList"
               :key="note._id"
-              class="flex justify-start items-baseline"
+              class="flex justify-start items-baseline mb-3"
             >
               <span class="mr-[16px] text-xs"> {{ useHandleFormatTime(note.createdAt) }}</span>
-              <div class="text-left whitespace-pre-wrap hover:bg-stone-300">{{ note.content }}</div>
+              <KeyWord
+                class="hover:bg-stone-300 whitespace-pre-wrap text-left"
+                :sentence="note.content"
+              />
             </div>
           </el-card>
         </el-timeline-item>
@@ -110,7 +117,7 @@ const showWeekData = computed(() => {
  */
 async function getWeekData() {
   const data = (await getWeek()) || [];
-  data.forEach((note: typeof weeklyNotes.value[number]) => {
+  data.forEach((note: (typeof weeklyNotes.value)[number]) => {
     note.weekDay = `星期${weekMap[getDay(note.createdAt)]}`;
   });
 
@@ -124,7 +131,7 @@ function handleChangeMode() {
 }
 function formatWeekData(data: typeof weeklyNotes.value) {
   const map = {} as {[key: string]: typeof weeklyNotes.value};
-  data.forEach((note: typeof weeklyNotes.value[number]) => {
+  data.forEach((note: (typeof weeklyNotes.value)[number]) => {
     if (map[note.weekDay]) {
       map[note.weekDay].push(note);
     } else {
@@ -134,7 +141,7 @@ function formatWeekData(data: typeof weeklyNotes.value) {
   return map;
 }
 
-type NoteItem = typeof weeklyNotes.value[number];
+type NoteItem = (typeof weeklyNotes.value)[number];
 // 复制
 function handleCopyDaily() {
   /**

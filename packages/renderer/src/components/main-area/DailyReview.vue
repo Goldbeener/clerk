@@ -68,7 +68,10 @@
         >
           <el-card :body-style="{padding: '0px'}">
             <div style="padding: 14px">
-              <div class="text-left whitespace-pre-wrap">{{ note.content }}</div>
+              <KeyWord
+                class="whitespace-pre-wrap text-left"
+                :sentence="note.content"
+              />
               <div class="text-slate-500 flex mt-[16px] justify-between items-center">
                 <span class="text-xs">{{ useHandleFormatTime(note.createdAt) }}</span>
                 <el-button
@@ -91,7 +94,10 @@
           class="flex mb-[16px] items-baseline"
         >
           <span class="text-xs mr-[16px]">{{ useHandleFormatTime(note.createdAt) }}</span>
-          <span class="whitespace-pre-wrap text-left">{{ note.content }}</span>
+          <KeyWord
+            class="whitespace-pre-wrap text-left"
+            :sentence="note.content"
+          />
         </div>
       </div>
     </template>
@@ -156,7 +162,7 @@ function handleSort() {
  */
 async function handleCopyDaily() {
   const data = showTodayNotes.value.reduce(
-    (pre: typeof todayNotes.value[number], cur: typeof todayNotes.value[number]) => {
+    (pre: (typeof todayNotes.value)[number], cur: (typeof todayNotes.value)[number]) => {
       // 需要注意pre类型，它是跟初始值、最终返回值保持一致的
       return `${pre}${pre ? '\n' : ''}${cur.content}`;
     },

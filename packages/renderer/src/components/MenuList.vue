@@ -25,8 +25,13 @@
 
 <script setup lang="ts">
 import {Document, Menu as IconMenu, Memo, Notebook} from '@element-plus/icons-vue';
+import mitter from '/@/hooks/useHanldeEventBus';
 
 const defaultActive = ref('/');
+
+mitter.on('update-sidebar', path => {
+  defaultActive.value = path as string;
+});
 </script>
 
 <style scoped lang="less">
