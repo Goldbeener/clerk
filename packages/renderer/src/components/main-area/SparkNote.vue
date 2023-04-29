@@ -44,8 +44,9 @@
               <el-button
                 class="button"
                 text
+                @click="handleDigDeep"
               >
-                <el-icon><More /></el-icon>
+                <el-icon color="#fde047"><Opportunity /></el-icon>
               </el-button>
             </div>
           </template>
@@ -59,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import {More, Search, Promotion} from '@element-plus/icons-vue';
+import {Opportunity, Search, Promotion} from '@element-plus/icons-vue';
 import {getTodoDb, createItem} from '#preload';
 import dayjs from 'dayjs';
 import mitter from '/@/hooks/useHanldeEventBus';
@@ -97,6 +98,15 @@ function confirmAddNote() {
 // 事件通知
 function notifyAddNote(eventName: string, data?: any) {
   mitter.emit(eventName, data);
+}
+
+function handleDigDeep() {
+  /**
+   * 点击跳转到新的一页
+   * 在这一页关于这个话题深入的描述
+   *
+   * updateNote，加上一个链接属性，链接对应的是深入的内容
+   * */
 }
 
 /**

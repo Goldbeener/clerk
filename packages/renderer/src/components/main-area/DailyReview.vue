@@ -15,6 +15,30 @@
           <component :is="showIcon"></component>
         </el-icon>
       </el-tooltip>
+      <el-tooltip
+        effect="dark"
+        content="点击排序"
+        placement="right"
+      >
+        <div
+          class="flex items-center cursor-pointer"
+          @click="handleSort"
+        >
+          <el-icon
+            size="20"
+            :color="sort ? '#22d3ee' : ''"
+          >
+            <SortDown />
+          </el-icon>
+          <el-icon
+            size="20"
+            class="ml-[-10px]"
+            :color="!sort ? '#22d3ee' : ''"
+          >
+            <SortUp />
+          </el-icon>
+        </div>
+      </el-tooltip>
       <div class="ml-auto">
         <el-tooltip
           effect="dark"
@@ -31,55 +55,62 @@
         </el-tooltip>
       </div>
     </div>
-    <!-- grid mode -->
-    <el-row
-      v-if="!mode"
-      :gutter="20"
-    >
-      <el-col
-        v-for="note in todayNotes"
-        :key="note._id"
-        :span="8"
+    <template v-if="showTodayNotes.length">
+      <!-- grid mode -->
+      <el-row
+        v-if="!mode"
+        :gutter="20"
       >
-        <el-card :body-style="{padding: '0px'}">
-          <div style="padding: 14px">
-            <div class="text-left whitespace-pre-wrap">{{ note.content }}</div>
-            <div class="text-slate-500 flex mt-[16px] justify-between items-center">
-              <span class="text-xs">{{ useHandleFormatTime(note.createdAt) }}</span>
-              <el-button
-                text
-                class="button"
-              ></el-button>
+        <el-col
+          v-for="note in showTodayNotes"
+          :key="note._id"
+          :span="8"
+        >
+          <el-card :body-style="{padding: '0px'}">
+            <div style="padding: 14px">
+              <div class="text-left whitespace-pre-wrap">{{ note.content }}</div>
+              <div class="text-slate-500 flex mt-[16px] justify-between items-center">
+                <span class="text-xs">{{ useHandleFormatTime(note.createdAt) }}</span>
+                <el-button
+                  text
+                  class="button"
+                ></el-button>
+              </div>
             </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <!-- detail mode -->
-    <div
-      v-else
-      class="detail-mode"
-    >
+          </el-card>
+        </el-col>
+      </el-row>
+      <!-- detail mode -->
       <div
-        v-for="note in todayNotes"
-        :key="note._id"
-        class="flex mb-[16px] items-baseline"
+        v-else
+        class="detail-mode"
       >
-        <span class="text-xs mr-[16px]">{{ useHandleFormatTime(note.createdAt) }}</span>
-        <span class="whitespace-pre-wrap text-left">{{ note.content }}</span>
+        <div
+          v-for="note in showTodayNotes"
+          :key="note._id"
+          class="flex mb-[16px] items-baseline"
+        >
+          <span class="text-xs mr-[16px]">{{ useHandleFormatTime(note.createdAt) }}</span>
+          <span class="whitespace-pre-wrap text-left">{{ note.content }}</span>
+        </div>
       </div>
-    </div>
+    </template>
+    <el-empty
+      v-else
+      description="今天还没有开始记录"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import {getToday, clipboardWriteText} from '#preload';
-import {Grid, Tickets, CopyDocument} from '@element-plus/icons-vue';
+import {Grid, Tickets, CopyDocument, SortUp, SortDown} from '@element-plus/icons-vue';
 import {ElMessage} from 'element-plus';
 import 'element-plus/theme-chalk/el-message.css';
 import {useHandleFormatTime} from '/@/hooks/useHandleFormatTime';
 
 const todayNotes = ref();
+const sort = ref(1);
 /**
  * mode
  * 0: grid
@@ -88,6 +119,17 @@ const todayNotes = ref();
 const mode = ref(0);
 const showIcon = computed(() => {
   return mode.value ? Tickets : Grid;
+});
+
+/**
+ * reverse 数组原地倒转，
+ * 返回值还是原数组，不会返回一个新的数组
+ */
+const showTodayNotes = computed(() => {
+  if (!todayNotes.value) {
+    return [];
+  }
+  return sort.value ? [...todayNotes.value] : [...todayNotes.value].reverse();
 });
 
 async function getTodayData() {
@@ -103,11 +145,18 @@ function handleChangeMode() {
 }
 
 /**
+ * 排序
+ */
+function handleSort() {
+  sort.value = 1 ^ sort.value;
+}
+
+/**
  * 复制日报
  */
 async function handleCopyDaily() {
-  const data = todayNotes.value.reduce(
-    (pre: (typeof todayNotes.value)[number], cur: (typeof todayNotes.value)[number]) => {
+  const data = showTodayNotes.value.reduce(
+    (pre: typeof todayNotes.value[number], cur: typeof todayNotes.value[number]) => {
       // 需要注意pre类型，它是跟初始值、最终返回值保持一致的
       return `${pre}${pre ? '\n' : ''}${cur.content}`;
     },
